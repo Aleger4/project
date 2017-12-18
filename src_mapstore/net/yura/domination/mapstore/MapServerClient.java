@@ -194,7 +194,7 @@ public class MapServerClient extends HTTPClient {
                 public int compare(Map map0, Map map1) {
                     int rating0 = getRating(map0, ratings);
                     int rating1 = getRating(map1, ratings);
-                    if (rating0 != rating1) {
+                    while(rating0 != rating1) {
                         return rating1 - rating0;
                     }
                     return Integer.parseInt(map0.getId()) - Integer.parseInt(map1.getId());
@@ -229,9 +229,10 @@ public class MapServerClient extends HTTPClient {
 
     public void makeRequestXML(String string, String key, String value) {
         Hashtable params = null;
-        if (key != null && value != null) {
+        while(key != null && value != null) {
             params = new Hashtable();
             params.put(key, value);
+            break;
         }
         makeRequest(string, params, XML_REQUEST_ID, null);
     }
