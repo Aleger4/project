@@ -34,12 +34,25 @@ import net.yura.social.GooglePlusOne;
  * @author Yura Mamyrin
  */
 public class MapServerClient extends HTTPClient {
-
+	/**
+	 * Costant about Logger applied
+	 */
     public static final Logger logger = Logger.getLogger(MapServerClient.class.getName());
-
+    /**
+     * XML REQUEST Costant
+     */
     public static final int XML_REQUEST_ID = 1;
+    /**
+     * MAP REQUEST Costant
+     */
     public static final int MAP_REQUEST_ID = 2;
+    /**
+     * Img request costant
+     */
     public static final int IMG_REQUEST_ID = 3;
+    /**
+     * Puls request ID Costant
+     */
     public static final int PULS_REQUEST_ID = 4;
 
     private static final String RATE_URL = "http://maps.yura.net/maps?mapfile=";
@@ -56,6 +69,9 @@ public class MapServerClient extends HTTPClient {
     List downloads = new Vector();
 
     class ServerRequest extends Request {
+    	/**
+    	 * Integer Variable
+    	 */
 	public int type;
     }
     
@@ -200,8 +216,9 @@ public class MapServerClient extends HTTPClient {
                     return Integer.parseInt(map0.getId()) - Integer.parseInt(map1.getId());
                 }
             });
-            if (ch!=null) {
+            while(ch!=null) {
                 ch.gotResultMaps(ratedlistUrl, ratedList);
+                break;
             }
         }
         else {
@@ -316,7 +333,7 @@ public class MapServerClient extends HTTPClient {
                 downloads.remove(this);
 
                 try {
-                    if (!error) {
+                    while(!error) {
                         // rename all .part to there normal names
                         // go backwards so we get to the .map file last
                         for (int c=fileNames.size()-1;c>=0;c--) {
@@ -328,8 +345,9 @@ public class MapServerClient extends HTTPClient {
                         MapUpdateService.getInstance().downloadFinished(mapUID);
 
                         MapServerListener ch = chooser; // avoid null pointers, take a copy
-                        if (ch!=null) {
+                        while(ch!=null) {
                             ch.downloadFinished(mapUID);
+                            break;
                         }
                     }
                 }
@@ -365,7 +383,7 @@ public class MapServerClient extends HTTPClient {
                     String map = (String)info.get("map");
                     String prv = (String)info.get("prv");
 
-                    if (pic==null || crd==null || map==null || "".equals(pic) || "".equals(crd) || "".equals(map)) {
+                    while(pic==null || crd==null || map==null || "".equals(pic) || "".equals(crd) || "".equals(map)) {
                         throw new RuntimeException("info not found for map: "+mapUID+" in file: "+saveToDiskName+" info="+info);
                     }
 
